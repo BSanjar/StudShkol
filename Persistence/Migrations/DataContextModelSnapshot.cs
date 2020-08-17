@@ -16,31 +16,11 @@ namespace Persistence.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.0");
 
-            modelBuilder.Entity("Domain.Admin", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("login")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("password")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Admin");
-                });
-
             modelBuilder.Entity("Domain.Answer", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("answer")
                         .HasColumnType("INTEGER");
@@ -48,21 +28,140 @@ namespace Persistence.Migrations
                     b.Property<int>("score")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("testsid")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("testsId")
+                        .HasColumnType("TEXT");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("testsid");
+                    b.HasIndex("testsId");
 
                     b.ToTable("Answer");
                 });
 
+            modelBuilder.Entity("Domain.AppUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers");
+                });
+
             modelBuilder.Entity("Domain.GroupTest", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GroupTest");
+                });
+
+            modelBuilder.Entity("Domain.ImageAnswer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("answerId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("file")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("answerId");
+
+                    b.ToTable("ImageAnswer");
+                });
+
+            modelBuilder.Entity("Domain.ImageTest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("file")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("testId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("testId");
+
+                    b.ToTable("ImageTest");
+                });
+
+            modelBuilder.Entity("Domain.LevelTest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
@@ -70,202 +169,403 @@ namespace Persistence.Migrations
                     b.Property<string>("TimeToTest")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("id");
+                    b.Property<Guid>("groupTestId")
+                        .HasColumnType("TEXT");
 
-                    b.ToTable("GroupTest");
+                    b.HasKey("Id");
+
+                    b.HasIndex("groupTestId");
+
+                    b.ToTable("LevelTest");
                 });
 
-            modelBuilder.Entity("Domain.ImageAnswer", b =>
+            modelBuilder.Entity("Domain.Promocode", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("answerid")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("file")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("id");
-
-                    b.HasIndex("answerid");
-
-                    b.ToTable("ImageAnswer");
-                });
-
-            modelBuilder.Entity("Domain.ImageTest", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("file")
+                    b.Property<string>("code")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("testid")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("testid");
-
-                    b.ToTable("ImageTest");
-                });
-
-            modelBuilder.Entity("Domain.Student", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
+                    b.Property<DateTime>("dateCreate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("number")
+                    b.Property<DateTime>("dateFinishUsing")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("id");
-
-                    b.ToTable("Student");
-                });
-
-            modelBuilder.Entity("Domain.StudentTest", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("CountTime")
+                    b.Property<DateTime>("dateStartUsing")
                         .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DateFinishTest")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DateStartTest")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("RegDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("groupTestid")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("status")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("studentid")
-                        .HasColumnType("INTEGER");
+                    b.HasKey("Id");
 
-                    b.HasKey("id");
+                    b.ToTable("Promocode");
+                });
 
-                    b.HasIndex("groupTestid");
+            modelBuilder.Entity("Domain.StudentTest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
 
-                    b.HasIndex("studentid");
+                    b.Property<Guid>("codeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("levelTestId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("studentId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("codeId");
+
+                    b.HasIndex("levelTestId");
 
                     b.ToTable("StudentTest");
                 });
 
             modelBuilder.Entity("Domain.Test", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("MyPropertyid")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Question")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("id");
+                    b.Property<Guid>("levelTestId")
+                        .HasColumnType("TEXT");
 
-                    b.HasIndex("MyPropertyid");
+                    b.HasKey("Id");
+
+                    b.HasIndex("levelTestId");
 
                     b.ToTable("Test");
                 });
 
             modelBuilder.Entity("Domain.TestResult", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Comment")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("answerid")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("answerId")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("studentTestid")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("studentTestId")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("testid")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("testId")
+                        .HasColumnType("TEXT");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("answerid");
+                    b.HasIndex("answerId");
 
-                    b.HasIndex("studentTestid");
+                    b.HasIndex("studentTestId");
 
-                    b.HasIndex("testid");
+                    b.HasIndex("testId");
 
                     b.ToTable("TestResult");
+                });
+
+            modelBuilder.Entity("Domain.Values", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Values");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Value 101 "
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Value 102 "
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Value 103 "
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
                 });
 
             modelBuilder.Entity("Domain.Answer", b =>
                 {
                     b.HasOne("Domain.Test", "tests")
-                        .WithMany()
-                        .HasForeignKey("testsid");
+                        .WithMany("Answer")
+                        .HasForeignKey("testsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.ImageAnswer", b =>
                 {
                     b.HasOne("Domain.Answer", "answer")
-                        .WithMany()
-                        .HasForeignKey("answerid");
+                        .WithMany("ImageAnswer")
+                        .HasForeignKey("answerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.ImageTest", b =>
                 {
                     b.HasOne("Domain.Test", "test")
-                        .WithMany()
-                        .HasForeignKey("testid");
+                        .WithMany("ImageTest")
+                        .HasForeignKey("testId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.LevelTest", b =>
+                {
+                    b.HasOne("Domain.GroupTest", "groupTest")
+                        .WithMany("LevelTest")
+                        .HasForeignKey("groupTestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.StudentTest", b =>
                 {
-                    b.HasOne("Domain.GroupTest", "groupTest")
-                        .WithMany()
-                        .HasForeignKey("groupTestid");
+                    b.HasOne("Domain.Promocode", "code")
+                        .WithMany("StudentTest")
+                        .HasForeignKey("codeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Domain.Student", "student")
-                        .WithMany()
-                        .HasForeignKey("studentid");
+                    b.HasOne("Domain.LevelTest", "levelTest")
+                        .WithMany("StudentTest")
+                        .HasForeignKey("levelTestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Test", b =>
                 {
-                    b.HasOne("Domain.GroupTest", "MyProperty")
-                        .WithMany()
-                        .HasForeignKey("MyPropertyid");
+                    b.HasOne("Domain.LevelTest", "levelTest")
+                        .WithMany("Test")
+                        .HasForeignKey("levelTestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.TestResult", b =>
                 {
                     b.HasOne("Domain.Answer", "answer")
-                        .WithMany()
-                        .HasForeignKey("answerid");
+                        .WithMany("TestResult")
+                        .HasForeignKey("answerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.StudentTest", "studentTest")
                         .WithMany()
-                        .HasForeignKey("studentTestid");
+                        .HasForeignKey("studentTestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Test", "test")
+                        .WithMany("TestResult")
+                        .HasForeignKey("testId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
-                        .HasForeignKey("testid");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

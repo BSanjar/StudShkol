@@ -1,9 +1,12 @@
+using System;
+using System.Collections.Generic;
+
 namespace Domain
 {
     public class GroupTest
     {
-        public int  id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
-        public string TimeToTest { get; set; }
+        public List<LevelTest> LevelTest { get; set;}
     }
 }
