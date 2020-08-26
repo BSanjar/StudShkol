@@ -10,8 +10,12 @@ namespace Domain
         public Guid groupTestId { get; set;}
         public GroupTest groupTest { get; set; }
         public string TimeToTest { get; set; }
-        public List<Test> Test {get;set;}
-        public List<StudentTest> StudentTest {get;set;}
+
+
+        //идентификатор теста, в базе нету такого поля
+        //public string studentTestId { get; set; }
+        // public List<Test> Test {get;set;}
+        // public List<StudentTest> StudentTest {get;set;}
         
     }
 }

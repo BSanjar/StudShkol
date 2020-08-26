@@ -25,6 +25,22 @@ namespace API.Controllers
             return await _mediator.Send(new List.Query());
         }
 
+        [HttpGet("{StudentId}")]
+        public async Task<ActionResult<List<StudentTest>>> ListByStudent(Guid StudentId,CancellationToken ct)
+        {
+            return await _mediator.Send(new ListByStudent.Query{studentId=StudentId},ct);
+        }
+
+        [HttpGet("{StudentId}")]
+        public async Task<ActionResult<List<StudentTest>>> ListByStudent2(Guid StudentId,CancellationToken ct)
+        {
+            return await _mediator.Send(new ListByStudent2.Query{studentId=StudentId},ct);
+        }
+        public async Task<ActionResult<List<StudentTest>>> ListByGroupAndStudent(Guid groupID, Guid studentId, CancellationToken ct)
+        {
+            return await _mediator.Send(new ListByGroupAndStudent.Query { groupId = groupID, studentId = studentId }, ct);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<StudentTest>> Details(Guid id,CancellationToken ct)
         {

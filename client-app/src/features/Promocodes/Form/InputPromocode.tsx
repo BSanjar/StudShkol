@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Grid, Segment, Form, Button, Label } from "semantic-ui-react";
 import InputMask from "react-input-mask";
 // import {
@@ -10,6 +10,7 @@ import InputMask from "react-input-mask";
 import PromocodeStore from "../../../app/stores/PromocodeStore";
 import { observer } from "mobx-react-lite";
 import { history } from "../../..";
+import LevelTestStore from "../../../app/stores/LevelTestStore";
 const InputPromocode = () => {
  
     
@@ -27,10 +28,20 @@ const InputPromocode = () => {
  
 
   const handleSubmit = () => {
+    // const code2 = code;
+    // console.log(code2)
+    // console.log(code2.length)
+    // //if(code.length>5)
       if(promocodeStore.finded){
-        history.push("/urraaa");
+        history.push("/chooseLevel");
+
     }
   };
+  const levelTestsStore = useContext(LevelTestStore);
+
+        useEffect(() => {
+          levelTestsStore.loadAllLevelTests();
+        }, [levelTestsStore]);
   return (
     <Grid>
       <Grid.Column width={10}>

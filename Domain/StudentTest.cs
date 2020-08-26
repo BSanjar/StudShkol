@@ -10,5 +10,9 @@ namespace Domain
         public LevelTest levelTest { get; set; }
         public Guid codeId { get; set; }
         public Promocode code { get; set; }
+
+
+        //тест
+        public AppUser student { get; set; }
     }
 }

@@ -10,7 +10,6 @@ import { ITest } from "../models/Test";
 axios.defaults.baseURL = "http://localhost:5000/api";
 
 axios.interceptors.response.use(undefined, (error) => {
-  
   if (error.message === "Network Error" && !error.response) {
     toast.error("Network error - make sure API is running!");
   }
@@ -50,17 +49,30 @@ const requests = {
 
 const GroupTests = {
   list: (): Promise<IGroupTest[]> => requests.get("/GroupTests/List"),
+  studentGroups: (id: string): Promise<IGroupTest[]> =>
+    requests.get(`/GroupTests/GoupsStudent/${id}`),
   details: (id: string) => requests.get(`/GroupTests/Details/${id}`),
-  create: (grouptest: IGroupTest) => requests.post("/GroupTests/Create", grouptest),
+  create: (grouptest: IGroupTest) =>
+    requests.post("/GroupTests/Create", grouptest),
   update: (grouptest: IGroupTest) =>
-    requests.put(`/GroupTests/update/${grouptest.Id}`, grouptest),
+    requests.put(`/GroupTests/update/${grouptest.id}`, grouptest),
   delete: (id: string) => requests.del(`/GroupTests/Delete/${id}`),
 };
 
 const LevelTests = {
   list: (): Promise<ILevelTest[]> => requests.get("/LevelTests/List"),
+  listByGroup: (groupId: string): Promise<ILevelTest[]> =>
+    requests.get(`/LevelTests/ListByGroup/${groupId}`),
+  ListLevelsStudent: (
+    groupId: string,
+    studentId: string
+  ): Promise<ILevelTest[]> =>
+    requests.get(
+      `/LevelTests/ListLevelsStudent?groupID=${groupId}&studentId=${studentId}`
+    ),
   details: (id: string) => requests.get(`/LevelTests/Details/${id}`),
-  create: (leveltest: ILevelTest) => requests.post("/LevelTests/Create", leveltest),
+  create: (leveltest: ILevelTest) =>
+    requests.post("/LevelTests/Create", leveltest),
   update: (leveltest: ILevelTest) =>
     requests.put(`/LevelTests/update/${leveltest.id}`, leveltest),
   delete: (id: string) => requests.del(`/LevelTests/Delete/${id}`),
@@ -69,8 +81,10 @@ const LevelTests = {
 const Promocodes = {
   list: (): Promise<IPromocode[]> => requests.get("/Promocodes/List"),
   details: (id: string) => requests.get(`/Promocodes/Details/${id}`),
-  detailsbyCode: (code?: string) => requests.get(`/Promocodes/DetailsByCode/${code}`),
-  create: (promocode: IPromocode) => requests.post("/Promocodes/Create", promocode),
+  detailsbyCode: (code?: string) =>
+    requests.get(`/Promocodes/DetailsByCode/${code}`),
+  create: (promocode: IPromocode) =>
+    requests.post("/Promocodes/Create", promocode),
   update: (promocode: IPromocode) =>
     requests.put(`/Promocodes/Edit${promocode.id}`, promocode),
   delete: (id: string) => requests.del(`/Promocodes/Delete${id}`),
@@ -78,11 +92,16 @@ const Promocodes = {
 
 const StudentTests = {
   list: (): Promise<IStudentTest[]> => requests.get("/StudentsTest/List"),
+  listByStudent: (studentId: string): Promise<IStudentTest[]> =>
+    requests.get(`/StudentsTest/ListByStudent/${studentId}`),
+  ListByGroupAndStudent: (studentId: string, groupId:string): Promise<IStudentTest[]> =>
+    requests.get(`/StudentsTest/ListByGroupAndStudent?groupID=${groupId}&studentId=${studentId}`),
+    
   details: (id: string) => requests.get(`/StudentsTest/Details/${id}`),
   create: (studentTest: IStudentTest) =>
     requests.post("/StudentsTest/Create", studentTest),
   update: (studentTest: IStudentTest) =>
-    requests.put(`/StudentsTest/Update/${studentTest.Id}`, studentTest),
+    requests.put(`/StudentsTest/Update/${studentTest.id}`, studentTest),
   delete: (id: string) => requests.del(`/StudentsTest/Delete/${id}`),
 };
 const Tests = {

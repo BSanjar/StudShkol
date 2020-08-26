@@ -8,6 +8,7 @@ import InputPromocode from "../../features/Promocodes/Form/InputPromocode";
 import HomePage from "../../features/home/HomePage";
 import NotFoundComponent from "../../app/layout/NotFoundComponent";
 import { ToastContainer } from "react-toastify";
+import ChooseLevel from "../../features/ActivateLevel/ChooseLevel";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
               <Switch>
                 <Route path="/inputPromocode" component={InputPromocode} />
                 <Route path="/mytests" component={StudentTestsDashboard} />
+                <Route path="/chooseLevel" component={ChooseLevel} />
                 {/* <Route path="/raiting" component={StudentTestsDashboard} /> */}
                 <Route component={NotFoundComponent} />
               </Switch>

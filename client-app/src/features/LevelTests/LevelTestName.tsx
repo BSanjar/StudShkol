@@ -1,18 +1,17 @@
-import React, { useEffect, useContext } from "react";
-import { Item } from "semantic-ui-react";
-import LeveltestStore from "../../app/stores/LevelTestStore";
-import { observer } from "mobx-react-lite";
+import React, { useEffect, useState } from "react";
+import agent from "../../app/api/agent";
+import { ILevelTest, LevelTestClass } from "../../app/models/LevelTest";
+import LevelTestNameInfo from "./LevelTestNameInfo";
 
 const LevelTestName: React.FC<any> = (levelTestId) => {
-  const levelTestStore = useContext(LeveltestStore);
+  const [st, setst] = useState<ILevelTest>( new LevelTestClass());
   useEffect(() => {
-    levelTestStore.loadLevelTest(levelTestId.levelTestId);
-  }, [levelTestStore]);
-  return (
-    <div>
-      <Item.Header as="a">{levelTestStore.leveltest.name}</Item.Header>
-    </div>
-  );
+    agent.LevelTests.details(levelTestId.levelTestId).then((responce) =>
+      setst(responce)
+    );
+  }, []);
+
+  return <LevelTestNameInfo levelTest={st} />;
 };
 
-export default observer(LevelTestName);
+export default LevelTestName;

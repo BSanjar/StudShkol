@@ -1,38 +1,54 @@
-import React, { useEffect, useContext } from "react";
-import { Item } from "semantic-ui-react";
-import PromocodeStore from "../../app/stores/PromocodeStore";
-import { observer } from "mobx-react-lite";
+import React, { useEffect, useState } from "react";
+import { Item, Segment, Label } from "semantic-ui-react";
+import agent from "../../app/api/agent";
+import { IPromocode, PromocodeClass } from "../../app/models/Promocode";
 
-const PromocodesForLevel: React.FC<any> = (PromocodeTestId) => {
-  const PromocodesStore = useContext(PromocodeStore);
+const PromocodesForLevel: React.FC<any> = (codeId) => {
+  const [st, setst] = useState<IPromocode>(new PromocodeClass());
   useEffect(() => {
-    PromocodesStore.loadPromocode(PromocodeTestId.PromocodeTestId);
-  }, [PromocodesStore]);
+    agent.Promocodes.details(codeId.codeId).then((responce) => setst(responce));
+  }, []);
 
   var status = "";
+  var startTimeTest = "";
+  var endTimeTest = "";
 
-  if (PromocodesStore.promocode.status === "wait") {
+  if (st.status === "wait") {
     status = "В ожидании";
+    startTimeTest = "";
+    endTimeTest = "";
   }
-  if (PromocodesStore.promocode.status === "in process") status = "В процессе";
-  if (PromocodesStore.promocode.status === "processed") status = "Завершен";
+  if (st.status === "in process") {
+    status = "В процессе";
+
+    startTimeTest =
+      "Время начало: " + st.dateStartUsing.toString().split("T")[1];
+    endTimeTest = "Время завершения: - ";
+  }
+
+  if (st.status === "processed") {
+    status = "Завершен";
+    startTimeTest =
+      "Время начало: " + st.dateStartUsing.toString().split("T")[1];
+    endTimeTest =
+      "Время завершения: " + st.dateFinishUsing.toString().split("T")[1];
+  }
 
   return (
-    <div>
-      <Item.Meta>{status}</Item.Meta>
-      <Item.Description>
-        <div>
-          {" "}
-          Дата регистрации:{" "}
-          {PromocodesStore.promocode.dateCreate.toString().split("T")[0]}{" "}
-        </div>
-        <div>
-          {PromocodesStore.promocode.dateStartUsing.toString().split("T")[1]} -{" "}
-          {PromocodesStore.promocode.dateFinishUsing.toString().split("T")[1]}
-        </div>
-      </Item.Description>
-    </div>
+    <Segment clearing>
+      <Label color="blue" as="a">
+        {status}
+      </Label>
+
+      <Item.Content>
+        Дата регистрации: {st.dateCreate.toString().split("T")[0]}{" "}
+      </Item.Content>
+      <Item.Content>
+        <Label>{startTimeTest}</Label>
+        <Label>{endTimeTest}</Label>
+      </Item.Content>
+    </Segment>
   );
 };
 
-export default observer(PromocodesForLevel);
+export default PromocodesForLevel;

@@ -25,11 +25,23 @@ namespace API.Controllers
             return await _mediator.Send(new List.Query());
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<LevelTest>> Details(Guid id,CancellationToken ct)
+        [HttpGet("{groupId}")]
+        public async Task<ActionResult<List<LevelTest>>> ListByGroup(Guid groupID, CancellationToken ct)
         {
-            return await _mediator.Send(new Details.Query { Id = id },ct);
+            return await _mediator.Send(new ListByGroup.Query { groupId = groupID }, ct);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<LevelTest>> Details(Guid id, CancellationToken ct)
+        {
+            return await _mediator.Send(new Details.Query { Id = id }, ct);
+        }
+        //[HttpGet("{groupId}&{studentId}")]
+        public async Task<ActionResult<List<LevelTest>>> ListLevelsStudent(Guid groupID, Guid studentId, CancellationToken ct)
+        {
+            return await _mediator.Send(new ListByGroupAndStudent.Query { groupId = groupID, studentId = studentId }, ct);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {
@@ -38,10 +50,10 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Unit>> Delete(Guid id)
         {
-            return await _mediator.Send(new Delete.Command{id = id});
+            return await _mediator.Send(new Delete.Command { id = id });
         }
 
-         [HttpPut("{id}")]
+        [HttpPut("{id}")]
         public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
         {
             command.Id = id;
