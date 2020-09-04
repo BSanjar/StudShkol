@@ -7,7 +7,7 @@ const PromocodesForLevel: React.FC<any> = (codeId) => {
   const [st, setst] = useState<IPromocode>(new PromocodeClass());
   useEffect(() => {
     agent.Promocodes.details(codeId.codeId).then((responce) => setst(responce));
-  }, []);
+  }, [codeId.codeId]);
 
   var status = "";
   var startTimeTest = "";

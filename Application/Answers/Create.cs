@@ -13,7 +13,7 @@ namespace Application.Answers
         public class Command : IRequest
         {
             public Guid id { get; set; }
-            public int answer { get; set; }
+            public string answer { get; set; }
             public Guid testsId { get; set; }
             public int score { get; set; }
         }

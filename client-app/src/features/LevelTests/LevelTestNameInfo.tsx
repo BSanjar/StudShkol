@@ -1,6 +1,5 @@
 import React from "react";
 import { Segment, Item } from "semantic-ui-react";
-
 import { observer } from "mobx-react-lite";
 import { ILevelTest } from "../../app/models/LevelTest";
 

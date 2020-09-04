@@ -9,6 +9,7 @@ import HomePage from "../../features/home/HomePage";
 import NotFoundComponent from "../../app/layout/NotFoundComponent";
 import { ToastContainer } from "react-toastify";
 import ChooseLevel from "../../features/ActivateLevel/ChooseLevel";
+import LoadTests from "../../features/testing/LoadTests";
 
 const App = () => {
   return (
@@ -25,7 +26,7 @@ const App = () => {
                 <Route path="/inputPromocode" component={InputPromocode} />
                 <Route path="/mytests" component={StudentTestsDashboard} />
                 <Route path="/chooseLevel" component={ChooseLevel} />
-                {/* <Route path="/raiting" component={StudentTestsDashboard} /> */}
+                <Route path="/testing" component={LoadTests} />
                 <Route component={NotFoundComponent} />
               </Switch>
               {/* <StudentTestsDashboard studentTests={studentTestsStore.studentTests} /> */}

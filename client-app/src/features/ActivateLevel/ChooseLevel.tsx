@@ -1,69 +1,41 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Step } from "semantic-ui-react";
-import LevelTestStore from "../../app/stores/LevelTestStore";
+import React, { useContext, useEffect, useState, Fragment } from "react";
+import { Label, Segment } from "semantic-ui-react";
 import StudentTestsStore from "../../app/stores/StudentTestsStore";
+import { IGroupTest } from "../../app/models/GroupTest";
+import agent from "../../app/api/agent";
+import LevelsForChoose from "./LevelsForChoose";
 
 const ChooseLevel: React.FC = () => {
   const studentTestsStore = useContext(StudentTestsStore);
-  const levelTestsStore = useContext(LevelTestStore);
-
-  const [activeLevelId, setactiveLevelId] = useState("");
 
   //временно
-  var studentId = "CDAF04D0-C2ED-4896-B297-1877E6C3F150";
+  var studentId = studentTestsStore.CurrentStudentTest.studentId;
   useEffect(() => {
     studentTestsStore.LoadStudentTestsByStudent(studentId);
   }, [studentTestsStore]);
 
-  const { leveltests } = levelTestsStore;
-  var newLevel = false;
+  const [st, setst] = useState<IGroupTest[]>([]);
+  useEffect(() => {
+    agent.GroupTests.list().then((res) => {
+      setst(res);
+    });
+  }, []);
 
   return (
-    <Step.Group>
-      {leveltests.map((levelTest) =>
-        studentTestsStore.studentTests.find(
-          (a) => a.levelTestId === levelTest.id
-        ) ? (
-          <Step
-            active={activeLevelId === levelTest.id}
-            icon="flag"
-            link
-            onClick={() => {
-              setactiveLevelId(levelTest.id);
-            }}
-            title={levelTest.name}
-            key={levelTest.id}
-            description="Доступно"
-          />
-        ) : newLevel === false ? (
-          ((newLevel = true),
-          (
-            <Step
-              active={activeLevelId === levelTest.id}
-              icon="flag outline"
-              link
-              key={levelTest.id}
-              onClick={() => {
-                setactiveLevelId(levelTest.id);
-              }}
-              title={levelTest.name}
-              description="Доступно (новый уровень)"
-            />
-          ))
-        ) : (
-          <Step
-            active={false}
-            icon="flag outline"
-            link
-            key={levelTest.id}
-            //onClick={this.handleClick}
-            title={levelTest.name}
-            disabled={true}
-            description="не доступно"
-          />
-        )
-      )}
-    </Step.Group>
+    <Fragment>
+      <Fragment>
+        {st.map((a) => (
+          <Fragment key={a.id}>
+            <Label size="large" color="blue">
+              {a.name}
+            </Label>
+            <Segment>
+              <LevelsForChoose studentId={studentId} groupId={a.id} />
+            </Segment>
+          </Fragment>
+        ))}
+      </Fragment>
+    </Fragment>
   );
 };
 

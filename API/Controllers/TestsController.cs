@@ -23,7 +23,15 @@ namespace API.Controllers
         public async Task<ActionResult<List<Test>>> List()
         {
             return await _mediator.Send(new List.Query());
+        }   
+
+         [HttpGet("{levelId}")]
+        public async Task<ActionResult<List<Test>>> listByLevel(Guid levelId,CancellationToken ct)
+        {
+            return await _mediator.Send(new ListByLevel.Query{levelId = levelId});
         }
+
+        
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Test>> Details(Guid id,CancellationToken ct)

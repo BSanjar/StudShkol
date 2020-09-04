@@ -6,8 +6,7 @@ import GroupTestsStudent from "./GroupTestsStudent";
 
 const StudentTestsDashboard: React.FC = () => {
   const student = "CDAF04D0-C2ED-4896-B297-1877E6C3F150";
-  
-  
+
   const groupsStore = useContext(GroupTestStore);
   useEffect(() => {
     groupsStore.loadStudentGroupTests(student);

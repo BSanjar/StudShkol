@@ -6,6 +6,8 @@ import agent from "../api/agent";
 class StudentTestsStore {
   @observable studentTests: IStudentTest[] = [];
   @observable studentTest: IStudentTest = new StudentTestClass();
+  @observable CurrentStudentTest: IStudentTest = new StudentTestClass(); //данные студента который проходит в данный момент тестирования
+  @observable timeToTest = 0;
   @observable loadingInitial = false;
 
   @action LoadStudentTests = async () => {

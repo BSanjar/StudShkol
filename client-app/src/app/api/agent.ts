@@ -6,6 +6,8 @@ import { ILevelTest } from "../models/LevelTest";
 import { IPromocode } from "../models/Promocode";
 import { IStudentTest } from "../models/StudentTest";
 import { ITest } from "../models/Test";
+import { ITestResult } from "../models/TestResult";
+import { IAnswers } from "../models/Answers";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -94,9 +96,14 @@ const StudentTests = {
   list: (): Promise<IStudentTest[]> => requests.get("/StudentsTest/List"),
   listByStudent: (studentId: string): Promise<IStudentTest[]> =>
     requests.get(`/StudentsTest/ListByStudent/${studentId}`),
-  ListByGroupAndStudent: (studentId: string, groupId:string): Promise<IStudentTest[]> =>
-    requests.get(`/StudentsTest/ListByGroupAndStudent?groupID=${groupId}&studentId=${studentId}`),
-    
+  ListByGroupAndStudent: (
+    studentId: string,
+    groupId: string
+  ): Promise<IStudentTest[]> =>
+    requests.get(
+      `/StudentsTest/ListByGroupAndStudent?groupID=${groupId}&studentId=${studentId}`
+    ),
+
   details: (id: string) => requests.get(`/StudentsTest/Details/${id}`),
   create: (studentTest: IStudentTest) =>
     requests.post("/StudentsTest/Create", studentTest),
@@ -106,10 +113,33 @@ const StudentTests = {
 };
 const Tests = {
   list: (): Promise<ITest[]> => requests.get("/Tests/list"),
+  listByLevel: (levelId: string): Promise<ITest[]> =>
+    requests.get(`/Tests/listByLevel/${levelId}`),
   details: (id: string) => requests.get(`/Tests/Details/${id}`),
   create: (test: ITest) => requests.post("/Tests/Create", test),
-  update: (test: ITest) => requests.put(`/Tests/Update/${test.Id}`, test),
+  update: (test: ITest) => requests.put(`/Tests/Update/${test.id}`, test),
   delete: (id: string) => requests.del(`/Tests/Delete/${id}`),
+};
+
+const TestResults = {
+  list: (): Promise<ITestResult[]> => requests.get("/TestsResults/list"),
+  //listByLevel: (levelId:string): Promise<ITest[]> => requests.get(`/Tests/listByLevel/${levelId}`),
+  details: (id: string) => requests.get(`/TestsResults/Details/${id}`),
+  create: (testres: ITestResult) =>
+    requests.post("/TestsResults/Create", testres),
+  update: (testres: ITestResult) =>
+    requests.put(`/TestsResults/Update/${testres.id}`, testres),
+  delete: (id: string) => requests.del(`/TestsResults/Delete/${id}`),
+};
+
+const Answers = {
+  list: (): Promise<ITestResult[]> => requests.get("/Answers/list"),
+  listByTest: (test:string): Promise<IAnswers[]> => requests.get(`/Answers/listByTest/${test}`),
+  details: (id: string) => requests.get(`/Answers/Details/${id}`),
+  create: (answer: IAnswers) => requests.post("/Answers/Create", answer),
+  update: (answer: IAnswers) =>
+    requests.put(`/Answers/Update/${answer.id}`, answer),
+  delete: (id: string) => requests.del(`/Answers/Delete/${id}`),
 };
 
 export default {
@@ -118,4 +148,6 @@ export default {
   Promocodes,
   StudentTests,
   Tests,
+  TestResults,
+  Answers,
 };

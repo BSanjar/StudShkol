@@ -6,6 +6,7 @@ import agent from "../api/agent";
 class PromocodeStore {
   @observable submitting = false;
   @observable finded = false;
+  @observable findedTimePromocode = 0;
   @observable findedMessageColor = "grey";
   @observable findedMessage = "Введите промокод";
   @observable loadingInitial = false;
@@ -29,6 +30,7 @@ class PromocodeStore {
           this.finded = true;
           this.findedMessageColor="green";
           this.findedMessage = "Промокод найден, нажмите на кнопку 'далее'";
+          
           //console.log(this.promocode);
         });
       }
